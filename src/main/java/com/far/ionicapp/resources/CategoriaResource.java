@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.far.ionicapp.domain.Categoria;
 import com.far.ionicapp.services.CategoriaService;
 
+import javassist.tools.rmi.ObjectNotFoundException;
+
 @RestController
 @RequestMapping(value="categorias")
 public class CategoriaResource {
@@ -20,8 +22,8 @@ public class CategoriaResource {
 
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {		
-		Categoria obj = service.buscar(id); 
+	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {		
+		Categoria obj = service.find(id); 
 		return ResponseEntity.ok().body(obj);
 	}
 

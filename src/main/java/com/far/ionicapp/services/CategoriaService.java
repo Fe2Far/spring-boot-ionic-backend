@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.far.ionicapp.domain.Categoria;
 import com.far.ionicapp.repositories.CategoriaRepository;
+import com.far.ionicapp.services.exception.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -14,9 +15,12 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repository;
 
-	public Categoria buscar(Integer id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
-		return obj.orElse(null);
+		//return obj.orElse(null);
+		
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id : " + id + ", Tipo : " + Categoria.class.getName()));
 	}
 
 }
