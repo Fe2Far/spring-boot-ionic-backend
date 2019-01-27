@@ -14,7 +14,7 @@ import com.far.ionicapp.services.CategoriaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 
 @RestController
-@RequestMapping(value="categorias")
+@RequestMapping(value="/categorias")
 public class CategoriaResource {
 	
 	@Autowired

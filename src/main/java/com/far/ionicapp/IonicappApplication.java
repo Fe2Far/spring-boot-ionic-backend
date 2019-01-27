@@ -13,6 +13,7 @@ import com.far.ionicapp.domain.Cidade;
 import com.far.ionicapp.domain.Cliente;
 import com.far.ionicapp.domain.Endereco;
 import com.far.ionicapp.domain.Estado;
+import com.far.ionicapp.domain.ItemPedido;
 import com.far.ionicapp.domain.Pagamento;
 import com.far.ionicapp.domain.PagamentoComBoleto;
 import com.far.ionicapp.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.far.ionicapp.repositories.CidadeRepository;
 import com.far.ionicapp.repositories.ClienteRepository;
 import com.far.ionicapp.repositories.EnderecoRepository;
 import com.far.ionicapp.repositories.EstadoRepository;
+import com.far.ionicapp.repositories.ItemPedidoRepository;
 import com.far.ionicapp.repositories.PagamentoRepository;
 import com.far.ionicapp.repositories.PedidoRepository;
 import com.far.ionicapp.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class IonicappApplication  implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(IonicappApplication.class, args);
@@ -68,7 +73,7 @@ public class IonicappApplication  implements CommandLineRunner {
 		
 		Produto p1 = new Produto(null,"Computador",2000.00);
 		Produto p2 = new Produto(null,"Impressora",1100.00);
-		Produto p3 = new Produto(null,"Computador",80.00);
+		Produto p3 = new Produto(null,"Mouse",80.00);
 		
 		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
@@ -120,6 +125,22 @@ public class IonicappApplication  implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+
+		ItemPedido ip1  = new ItemPedido(ped1, p1, 0.00, 1, 800.00);
+		ItemPedido ip2 = new ItemPedido(ped1,p3,0.00,2,90.00);
+
+		ItemPedido ip3 = new ItemPedido(ped2,p2,100.00,1,8000.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
+		
+		
 
 	}
 
