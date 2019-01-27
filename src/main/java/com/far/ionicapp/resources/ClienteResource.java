@@ -22,7 +22,7 @@ public class ClienteResource {
 
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {		
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws ObjectNotFoundException {		
 		Cliente obj = service.find(id); 
 		return ResponseEntity.ok().body(obj);
 	}
