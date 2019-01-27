@@ -4,6 +4,7 @@ package com.far.ionicapp.resources;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.far.ionicapp.domain.Categoria;
 import com.far.ionicapp.services.CategoriaService;
+import com.far.ionicapp.services.exception.DataIntegrityException;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
@@ -40,7 +42,21 @@ public class CategoriaResource {
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Categoria obj,@PathVariable Integer id) {
+		obj.setId(id);
 		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable Integer id) throws ObjectNotFoundException {		
+		
+		try {
+			service.delete(id);	
+		}
+		catch(DataIntegrityViolationException e) {
+			 throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos associados");
+		}
+		
 		return ResponseEntity.noContent().build();
 	}
 
