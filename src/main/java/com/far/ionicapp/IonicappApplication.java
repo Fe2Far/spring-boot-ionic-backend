@@ -89,6 +89,7 @@ public class IonicappApplication  implements CommandLineRunner {
 		Cidade c1 = new Cidade(null,"Uberlandia",est1);
 		Cidade c2 = new Cidade(null,"Campinas",est2);
 		Cidade c3 = new Cidade(null,"São Paulo",est2);
+		Cidade c4 = new Cidade(null,"Guarulhos",est2);
 
 		est1.getCidades().addAll(Arrays.asList(c1));		
 		est2.getCidades().addAll(Arrays.asList(c2,c3));
