@@ -2,11 +2,16 @@ package com.far.ionicapp;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.far.ionicapp.domain.Categoria;
 import com.far.ionicapp.domain.Cidade;
@@ -102,7 +107,7 @@ public class IonicappApplication  implements CommandLineRunner {
 		categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5,cat6,cat7));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
-		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3,c4));
 
 		Cliente cli1 = new Cliente(null,"Maria","maria@gmail.com","123456789",TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("23456789","9654321"));
@@ -149,6 +154,20 @@ public class IonicappApplication  implements CommandLineRunner {
 		
 
 	}
+	
+	@Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.getDefault());
+        return slr;
+    }
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:locale/messages");
+        messageSource.setCacheSeconds(3600); //refresh cache once per hour
+        return messageSource;
+    }
 
 }
 

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.far.ionicapp.domain.Categoria;
+import com.far.ionicapp.dto.CategoriaDTO;
 import com.far.ionicapp.repositories.CategoriaRepository;
 import com.far.ionicapp.services.exception.ObjectNotFoundException;
 
@@ -47,6 +48,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page,Integer linesPerPage,String orderBy,String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repository.findAll(pageRequest) ;
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(),objDTO.getNome());
 	}
 
 }
