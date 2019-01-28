@@ -72,7 +72,7 @@ public class CategoriaResource {
 			service.delete(id);	
 		}
 		catch(DataIntegrityViolationException e) {
-			 throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos associados");
+			 throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
 		}
 		
 		return ResponseEntity.noContent().build();
