@@ -6,10 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.far.ionicapp.components.Messages;
-import com.far.ionicapp.domain.Categoria;
 import com.far.ionicapp.domain.Cliente;
 
 public class ClienteDTO implements Serializable {
