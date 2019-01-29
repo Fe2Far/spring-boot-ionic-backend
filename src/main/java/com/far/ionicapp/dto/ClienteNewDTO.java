@@ -2,6 +2,9 @@ package com.far.ionicapp.dto;
 
 import java.io.Serializable;
 
+import com.far.ionicapp.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

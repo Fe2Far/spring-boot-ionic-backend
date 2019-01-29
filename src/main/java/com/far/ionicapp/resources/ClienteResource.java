@@ -73,7 +73,7 @@ public class ClienteResource {
 			service.delete(id);	
 		}
 		catch(DataIntegrityViolationException e) {
-			 throw new DataIntegrityException("Não é possível excluir um cliente que possui pedidos.");
+			 throw new DataIntegrityException("Não é possível excluir um cliente que possui relacionamentos.");
 		}
 		
 		return ResponseEntity.noContent().build();
