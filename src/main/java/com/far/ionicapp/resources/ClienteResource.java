@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.far.ionicapp.domain.Cliente;
 import com.far.ionicapp.dto.ClienteDTO;
+import com.far.ionicapp.dto.ClienteNewDTO;
 import com.far.ionicapp.services.ClienteService;
 import com.far.ionicapp.services.exception.DataIntegrityException;
 
@@ -88,6 +89,15 @@ public class ClienteResource {
 		Page<Cliente> lista= service.findPage(page,linesPerPage,orderBy,direction); 
 		Page<ClienteDTO> listDTO = lista.map(obj -> new ClienteDTO(obj)); 
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
+		Cliente obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 
 }
