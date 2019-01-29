@@ -49,12 +49,33 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	/**
+	 * 
+	 * @param 
+	 * 
+	 * {
+			"nome":"Felipe Almeida",
+			"email":"felipe@gmail.com",
+			"cpfOuCnpj":"00538696052",
+			"tipoCliente": 1,
+			"logradouro":"Rua Joao da Silva",
+			"numero":"123",
+			"complemento":"AP 111",
+			"bairro":"CENTRO",
+			"cep":"02040150",
+			"cidade_id": 2,
+		
+			"telefone1":"11996089080",
+			"telefone2":"1120503297"
+		}
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
 		Cliente obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id").buildAndExpand(obj.getId()).toUri();
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
