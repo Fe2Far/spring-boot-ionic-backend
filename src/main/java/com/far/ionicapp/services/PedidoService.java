@@ -35,6 +35,9 @@ public class PedidoService {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
@@ -45,6 +48,29 @@ public class PedidoService {
 	}
 	
 
+	
+	/**
+	 * 
+	 * @param obj
+	 * {
+			"cliente" :{ "id":1},"enderecoDeEntrega":{"id":1},
+			"pagamento" : {
+				"numeroDeParcelas" : 10,
+				"@type":"pagamentoComCartao"
+			},
+			"itens" : [
+			{	
+				"quantidade" : 2,
+				"produto" : {"id":3}
+			},	
+			{	
+				"quantidade" : 2,
+				"produto" : {"id":3}
+			}	
+			]
+		}
+	 * @return
+	 */
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
@@ -64,7 +90,11 @@ public class PedidoService {
 			ip.setPreco(ip.getProduto().getPreco());
 			ip.setPedido(obj);
 		}
+
 		itemPedidoRepository.saveAll(obj.getItens());
+
+		emailService.sendOrderConfirmationEmail(obj);
+
 		return obj;
 	}
 
