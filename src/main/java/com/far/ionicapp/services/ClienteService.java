@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ import com.far.ionicapp.services.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	@Autowired
 	private ClienteRepository repository;
@@ -64,7 +68,7 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteDTO objDTO) {
-		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null); 
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null,null); 
 	}
 	
 	public Cliente fromDTO(ClienteNewDTO objDTO) {
@@ -74,7 +78,8 @@ public class ClienteService {
 				objDTO.getNome(), 
 				objDTO.getEmail(), 
 				objDTO.getCpfOuCnpj(), 
-				TipoCliente.toEnum(objDTO.getTipoCliente())
+				TipoCliente.toEnum(objDTO.getTipoCliente()),
+				pe.encode(objDTO.getSenha())
 				);
  
 		Endereco end = new Endereco(

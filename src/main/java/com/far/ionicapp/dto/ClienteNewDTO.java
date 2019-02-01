@@ -2,6 +2,8 @@ package com.far.ionicapp.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.far.ionicapp.services.validation.ClienteInsert;
 
 @ClienteInsert
@@ -25,6 +27,9 @@ public class ClienteNewDTO implements Serializable {
 	private String telefone3;
 	
 	private Integer cidade_id;
+	
+	@NotEmpty(message="Preenchimento Obrigatório")
+	private String senha;
 
 	public ClienteNewDTO() {
 		super();
@@ -133,5 +138,16 @@ public class ClienteNewDTO implements Serializable {
 	public void setCidade_id(Integer cidade_id) {
 		this.cidade_id = cidade_id;
 	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	
+	
 
 }
