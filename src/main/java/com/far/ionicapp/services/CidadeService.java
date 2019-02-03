@@ -58,5 +58,9 @@ public class CidadeService {
 	public Cidade fromDTO(CidadeDTO objDTO) {
 		throw new UnsupportedOperationException();
 	}
+	
+	public List<Cidade> findByEstado(Integer estadoId) {
+		return repository.findCidades(estadoId);
+	}
 
 }
