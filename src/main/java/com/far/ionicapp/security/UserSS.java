@@ -1,4 +1,4 @@
-package com.far.ionicapp.security;
+ package com.far.ionicapp.security;
 
 import java.util.Collection;
 import java.util.Set;
@@ -13,13 +13,13 @@ import com.far.ionicapp.domain.enums.Perfil;
 public class UserSS implements UserDetails {
  
 	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 	private String email;
 	private String senha;
 	private Collection<? extends GrantedAuthority> authorities;
-	
+
 	public UserSS() {
-		super();
 	}
 
 	public UserSS(Integer id, String email, String senha, Set<Perfil> perfis) {
@@ -27,13 +27,12 @@ public class UserSS implements UserDetails {
 		this.id = id;
 		this.email = email;
 		this.senha = senha;
-		this.authorities = perfis.stream().map(p -> new SimpleGrantedAuthority(p.getDescricao())).collect(Collectors.toList());
+		this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
 	}
 
 	public Integer getId() {
 		return id;
 	}
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
