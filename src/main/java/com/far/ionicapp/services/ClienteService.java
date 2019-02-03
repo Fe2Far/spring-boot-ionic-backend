@@ -14,11 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.far.ionicapp.domain.Cidade;
 import com.far.ionicapp.domain.Cliente;
 import com.far.ionicapp.domain.Endereco;
+import com.far.ionicapp.domain.enums.Perfil;
 import com.far.ionicapp.domain.enums.TipoCliente;
 import com.far.ionicapp.dto.ClienteDTO;
 import com.far.ionicapp.dto.ClienteNewDTO;
 import com.far.ionicapp.repositories.ClienteRepository;
 import com.far.ionicapp.repositories.EnderecoRepository;
+import com.far.ionicapp.security.UserSS;
+import com.far.ionicapp.security.UserService;
+import com.far.ionicapp.services.exception.AuthorizationException;
 import com.far.ionicapp.services.exception.ObjectNotFoundException;
 
 @Service
@@ -34,6 +38,12 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id : " + id + ", Tipo : " + Cliente.class.getName()));
